@@ -1,0 +1,29 @@
+name: Clonage et renommage de dépôt
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  surveillance_clonage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Node.js
+        uses: actions/setup-node@v2.4.0
+        with:
+          node-version: '14.x'
+      - uses: actions/checkout@v2
+      - name: Renommer le répertoire cloné
+        run: |
+          repo_name=$(basename -s .git $GITHUB_REPOSITORY)
+          new_dir="$repo_name"_"$GITHUB_ACTOR"
+          mv -f . "$new_dir"
+          cd "$new_dir"
+      - name: Vérifier le clonage
+        run: echo "Le clonage a été effectué avec succès !"
+
+
+
+
+
